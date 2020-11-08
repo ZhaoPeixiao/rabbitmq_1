@@ -2,6 +2,7 @@ package helloworld;
 
 import com.rabbitmq.client.*;
 import org.junit.Test;
+import utils.RabbitMQUtils;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -15,19 +16,23 @@ public class Consumer {
     @Test
     public void test() throws IOException, TimeoutException {
         // 创建连接mq的连接工厂
-        ConnectionFactory connectionFactory = new ConnectionFactory();
+//        ConnectionFactory connectionFactory = new ConnectionFactory();
         // 设置主机
-        connectionFactory.setHost("127.0.0.1");
+//        connectionFactory.setHost("127.0.0.1");
         // 设置端口号
-        connectionFactory.setPort(5672);
+//        connectionFactory.setPort(5672);
         // 设置连接虚拟主机
-        connectionFactory.setVirtualHost("/ems");
+//        connectionFactory.setVirtualHost("/ems");
         // 设置用户名密码
-        connectionFactory.setUsername("ems");
-        connectionFactory.setPassword("123");
+//        connectionFactory.setUsername("ems");
+//        connectionFactory.setPassword("123");
 
         // 获取连接对象
-        Connection connection = connectionFactory.newConnection();
+//        Connection connection = connectionFactory.newConnection();
+
+
+        // 通过工具类获取链接对象
+        Connection connection = RabbitMQUtils.getConnection();
 
         // 创建通道
         Channel channel = connection.createChannel();
@@ -50,5 +55,8 @@ public class Consumer {
         });
 //        channel.close();
 //        connection.close();
+
+        // 调用工具类关闭
+        RabbitMQUtils.closeConnectionAndChannel(channel, connection);
     }
 }
